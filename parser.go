@@ -1,22 +1,30 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type Parser struct {
-	input     string
 	tokenizer *Tokenizer
 }
 
 func NewParser(input string) *Parser {
-	parser := &Parser{
-		input: input,
-	}
 
-	parser.tokenizer = NewTokenizer(input)
+	parser := &Parser{}
+	parser.tokenizer = NewTokenizer(strings.TrimSpace(input))
 
 	return parser
 }
 
 func (p *Parser) parse() {
-	fmt.Println(p.input)
+	fmt.Println("@ program", p.tokenizer.input, "\n")
+
+	for p.tokenizer.hasMoreTokens() {
+		token := p.tokenizer.getNextToken()
+
+		if token != nil {
+			fmt.Println(token.toString())
+		}
+	}
 }
