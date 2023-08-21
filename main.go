@@ -1,17 +1,21 @@
 package main
 
+import "fmt"
+
 func main() {
 	program := `
-		import ("abc", "def");
-
-		let x = 3;
-		let y = -2.76437842 + x;
-		
-		def myFunc {
-			{ x };
+		def keywork {
+			print("hello", 4);
+			return true;
 		}
+
+		keywork();
 	`
 
+	fmt.Println("@ program", program, "\n")
+
 	parser := NewParser(program)
-	parser.parse()
+	ast := parser.parse()
+
+	fmt.Println(ast)
 }
