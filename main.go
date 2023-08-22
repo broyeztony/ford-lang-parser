@@ -1,21 +1,21 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 func main() {
 	program := `
-		def keywork {
-			print("hello", 4);
-			return true;
-		}
-
-		keywork();
+	let x = { a };
 	`
 
-	fmt.Println("@ program", program, "\n")
+	fmt.Println(program)
+	fmt.Println("----------------------\n")
 
 	parser := NewParser(program)
 	ast := parser.parse()
 
-	fmt.Println(ast)
+	j, _ := json.MarshalIndent(ast, "", "  ")
+	fmt.Println(string(j))
 }

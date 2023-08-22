@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
 )
@@ -19,7 +18,7 @@ func NewParser(input string) *Parser {
 	return parser
 }
 
-func (p *Parser) parse() string {
+func (p *Parser) parse() interface{} {
 
 	// to debug 👇🏻
 	//for {
@@ -32,11 +31,10 @@ func (p *Parser) parse() string {
 	//}
 
 	p.lookahead = p.tokenizer.getNextToken()
-	// fmt.Println("@ parse", p.lookahead)
 	return p.Program()
 }
 
-func (p *Parser) Program() string {
+func (p *Parser) Program() interface{} {
 
 	var body []interface{}
 
@@ -47,8 +45,7 @@ func (p *Parser) Program() string {
 		"body": body,
 	}
 
-	j, _ := json.MarshalIndent(program, "", "   ")
-	return string(j)
+	return program
 }
 
 func (p *Parser) StatementList(stopLookahead string) []interface{} {
@@ -74,6 +71,8 @@ func (p *Parser) Statement() interface{} {
 		return p.FunctionDeclaration()
 	case "return":
 		return p.ReturnStatement()
+	case "recover":
+		return p.RecoverStatement()
 	case "while", "do", "for":
 		return p.IterationStatement()
 	default:
@@ -91,12 +90,29 @@ func (p *Parser) EmptyStatement() interface{} {
 func (p *Parser) ExpressionStatement() interface{} {
 
 	expression := p.Expression()
+	errorHandler := p.ErrorHandler()
 	p.eat(";")
 
-	return map[string]interface{}{
+	node := map[string]interface{}{
 		"type":       "ExpressionStatement",
 		"expression": expression,
 	}
+
+	if errorHandler != nil {
+		node["errorHandler"] = errorHandler
+	}
+
+	return node
+}
+
+func (p *Parser) ErrorHandler() interface{} {
+	if p.lookahead._type == "ERROR_HANDLER_OPERATOR" {
+		p.eat("ERROR_HANDLER_OPERATOR")
+		handler := p.BlockStatement()
+
+		return handler
+	}
+	return nil
 }
 
 func (p *Parser) IfStatement() interface{} {
@@ -471,8 +487,8 @@ func (p *Parser) Literal() interface{} {
 		return p.BooleanLiteral(false)
 	case "null":
 		return p.NullLiteral()
-		//case "{":
-		//	return p.ObjectLiteral()
+	case "{":
+		return p.ObjectLiteral()
 	}
 
 	panic("Literal: unexpected literal production")
@@ -512,6 +528,59 @@ func (p *Parser) NullLiteral() interface{} {
 	return map[string]interface{}{
 		"type":  "NullLiteral",
 		"value": "null",
+	}
+}
+
+func (p *Parser) ObjectLiteral() interface{} {
+	p.eat("{")
+	var values []interface{}
+
+	for p.lookahead != nil && p.lookahead._type != "}" {
+		values = append(values, p.KeyValuePair())
+	}
+	p.eat("}")
+
+	return map[string]interface{}{
+		"type":   "ObjectLiteral",
+		"values": values,
+	}
+}
+
+func (p *Parser) KeyValuePair() interface{} {
+
+	identifier := p.Identifier()
+	var name string
+	if m, ok := identifier.(map[string]interface{}); ok {
+		name = m["name"].(string)
+	}
+
+	// handle shorthand notation. i.e. ```let x = { a };```
+	var value interface{}
+	if p.lookahead._type != ":" {
+		value = map[string]interface{}{
+			"type": "Identifier",
+			"name": name,
+		}
+
+		if p.lookahead._type == "," {
+			p.eat(",")
+		}
+
+		return map[string]interface{}{
+			"name":  name,
+			"value": value,
+		}
+	}
+
+	p.eat(":")
+	value = p.MemberExpression()
+	if p.lookahead._type == "," {
+		p.eat(",")
+	}
+
+	return map[string]interface{}{
+		"name":  name,
+		"value": value,
 	}
 }
 
@@ -681,11 +750,21 @@ func (p *Parser) ForStatementInit() interface{} {
 	return p.Expression()
 }
 
-/*
 func (p *Parser) RecoverStatement() interface{} {
-	return nil
+	p.eat("recover")
+	var argument interface{}
+	if p.lookahead._type != ";" {
+		argument = p.Expression()
+	} else {
+		argument = nil
+	}
+
+	p.eat(";")
+	return map[string]interface{}{
+		"type":     "RecoverStatement",
+		"argument": argument,
+	}
 }
-*/
 
 func (p *Parser) eat(tokenType string) *Token {
 
