@@ -7,14 +7,20 @@ import (
 
 func main() {
 	program := `
-	let x = { a };
+	{
+		42; 
+		"Hello";
+	}
 	`
 
 	fmt.Println(program)
-	fmt.Println("----------------------\n")
+	fmt.Println("----------------------")
+	fmt.Println()
 
 	parser := NewParser(program)
 	ast := parser.parse()
+
+	fmt.Println(ast)
 
 	j, _ := json.MarshalIndent(ast, "", "  ")
 	fmt.Println(string(j))

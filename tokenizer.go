@@ -112,7 +112,7 @@ func (t *Tokenizer) getNextToken() *Token {
 		}
 	}
 
-	panic(fmt.Sprintf("Unexpected token:", nextStr))
+	panic(fmt.Sprintf("Unexpected token:%v", nextStr))
 }
 
 func (tok *Token) toString() string {
