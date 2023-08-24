@@ -176,7 +176,7 @@ func (p *Parser) VariableDeclaration() interface{} {
 		initializer = nil
 	}
 
-	// const errorHandler = this.ErrorHandler();
+	errorHandler := p.ErrorHandler()
 
 	buffer := map[string]interface{}{
 		"type":        "VariableDeclaration",
@@ -184,9 +184,9 @@ func (p *Parser) VariableDeclaration() interface{} {
 		"initializer": initializer,
 	}
 
-	//if (errorHandler) {
-	//	buffer.errorHandler = errorHandler
-	//}
+	if errorHandler != nil {
+		buffer["errorHandler"] = errorHandler
+	}
 
 	return buffer
 }
@@ -589,6 +589,7 @@ func (p *Parser) BlockStatement() interface{} {
 	p.eat("{")
 	var body []interface{}
 	if p.lookahead._type == "}" {
+		// TODO: consider returning a null `body` in that case
 		body = append(body, nil)
 	} else {
 		body = p.StatementList("}")

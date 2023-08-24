@@ -1,16 +1,15 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"strings"
 )
 
 func main() {
 	program := `
-	{
-		42; 
-		"Hello";
-	}
+	let z = square({ x: a }) -> {};
 	`
 
 	fmt.Println(program)
@@ -20,8 +19,15 @@ func main() {
 	parser := NewParser(program)
 	ast := parser.parse()
 
-	fmt.Println(ast)
+	fmt.Println(encode(ast))
+}
 
-	j, _ := json.MarshalIndent(ast, "", "  ")
-	fmt.Println(string(j))
+func encode(ast interface{}) string {
+	buffer := &bytes.Buffer{}
+	encoder := json.NewEncoder(buffer)
+	encoder.SetIndent("", "  ")
+	encoder.SetEscapeHTML(false)
+	encoder.Encode(ast)
+	jsonString := buffer.String()
+	return strings.TrimRight(jsonString, "\n")
 }
