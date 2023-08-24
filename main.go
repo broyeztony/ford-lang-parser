@@ -9,7 +9,9 @@ import (
 
 func main() {
 	program := `
-	let z = square({ x: a }) -> {};
+	def square {
+    	return _.x * _.x;
+	}
 	`
 
 	fmt.Println(program)
