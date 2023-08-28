@@ -680,9 +680,7 @@ func (p *Parser) IterationStatement() interface{} {
 
 func (p *Parser) WhileStatement() interface{} {
 	p.eat("while")
-	p.eat("(")
 	test := p.Expression()
-	p.eat(")")
 
 	body := p.Statement()
 	return map[string]interface{}{
@@ -696,10 +694,7 @@ func (p *Parser) DoWhileStatement() interface{} {
 	p.eat("do")
 	body := p.Statement()
 	p.eat("while")
-	p.eat("(")
-
 	test := p.Expression()
-	p.eat(")")
 	p.eat(";")
 
 	return map[string]interface{}{
