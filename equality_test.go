@@ -26,7 +26,7 @@ func TestEquality(t *testing.T) {
           "operator": ">",
           "right": {
             "type": "NumericLiteral",
-            "value": "0"
+            "value": 0
           },
           "type": "BinaryExpression"
         },

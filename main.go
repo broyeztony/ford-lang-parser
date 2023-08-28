@@ -4,15 +4,20 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"strings"
 )
 
 func main() {
-	program := `
-	def square {
-    	return _.x * _.x;
+
+	data, err := ioutil.ReadFile("playground.ford")
+
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return
 	}
-	`
+
+	program := string(data)
 
 	fmt.Println(program)
 	fmt.Println("----------------------")

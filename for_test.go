@@ -48,7 +48,7 @@ func TestFor(t *testing.T) {
             },
             "initializer": {
               "type": "NumericLiteral",
-              "value": "0"
+              "value": 0
             },
             "type": "VariableDeclaration"
           }
@@ -63,7 +63,7 @@ func TestFor(t *testing.T) {
         "operator": "<",
         "right": {
           "type": "NumericLiteral",
-          "value": "10"
+          "value": 10
         },
         "type": "BinaryExpression"
       },
@@ -76,7 +76,7 @@ func TestFor(t *testing.T) {
         "operator": "+=",
         "right": {
           "type": "NumericLiteral",
-          "value": "1"
+          "value": 1
         },
         "type": "AssignmentExpression"
       }

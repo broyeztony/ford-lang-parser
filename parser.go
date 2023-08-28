@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -496,9 +497,15 @@ func (p *Parser) Literal() interface{} {
 
 func (p *Parser) NumericLiteral() interface{} {
 	token := p.eat("NUMBER")
+
+	float, err := strconv.ParseFloat(token.value, 64)
+	if err != nil {
+		panic(fmt.Sprintf("Unexpected token value: '%v'", token.value))
+	}
+
 	return map[string]interface{}{
 		"type":  "NumericLiteral",
-		"value": token.value,
+		"value": float,
 	}
 }
 

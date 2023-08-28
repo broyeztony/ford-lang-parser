@@ -5,23 +5,24 @@ import (
 	"testing"
 )
 
-func TestLoop(t *testing.T) {
+func TestIfElse(t *testing.T) {
 
 	program := `
-	do {
-		x -= 1;
-	} while (x > 10);
+	if x {
+		x = 1;
+	}
+	else {
+		x = 2;
+	}
 	`
 
 	parser := NewParser(program)
 	ast := parser.parse()
-
 	actual := encode(ast)
-
 	expected := `{
   "body": [
     {
-      "body": {
+      "alternate": {
         "body": [
           {
             "expression": {
@@ -29,7 +30,27 @@ func TestLoop(t *testing.T) {
                 "name": "x",
                 "type": "Identifier"
               },
-              "operator": "-=",
+              "operator": "=",
+              "right": {
+                "type": "NumericLiteral",
+                "value": 2
+              },
+              "type": "AssignmentExpression"
+            },
+            "type": "ExpressionStatement"
+          }
+        ],
+        "type": "BlockStatement"
+      },
+      "consequent": {
+        "body": [
+          {
+            "expression": {
+              "left": {
+                "name": "x",
+                "type": "Identifier"
+              },
+              "operator": "=",
               "right": {
                 "type": "NumericLiteral",
                 "value": 1
@@ -42,18 +63,10 @@ func TestLoop(t *testing.T) {
         "type": "BlockStatement"
       },
       "test": {
-        "left": {
-          "name": "x",
-          "type": "Identifier"
-        },
-        "operator": ">",
-        "right": {
-          "type": "NumericLiteral",
-          "value": 10
-        },
-        "type": "BinaryExpression"
+        "name": "x",
+        "type": "Identifier"
       },
-      "type": "DoWhileStatement"
+      "type": "IfStatement"
     }
   ],
   "type": "Program"

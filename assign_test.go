@@ -27,7 +27,7 @@ func TestAssign1(t *testing.T) {
         "operator": "=",
         "right": {
           "type": "NumericLiteral",
-          "value": "42"
+          "value": 42
         },
         "type": "AssignmentExpression"
       },
@@ -66,7 +66,7 @@ func TestAssign2(t *testing.T) {
           "operator": "=",
           "right": {
             "type": "NumericLiteral",
-            "value": "42"
+            "value": 42
           },
           "type": "AssignmentExpression"
         },

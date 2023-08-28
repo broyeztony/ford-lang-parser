@@ -13,7 +13,7 @@ import (
 	        {
 	          "expression": {
 	            "type": "NumericLiteral",
-	            "value": "42"
+	            "value": 42
 	          },
 	          "type": "ExpressionStatement"
 	        },
@@ -50,7 +50,7 @@ func TestBlockStatement(t *testing.T) {
         {
           "expression": {
             "type": "NumericLiteral",
-            "value": "42"
+            "value": 42
           },
           "type": "ExpressionStatement"
         },
