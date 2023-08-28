@@ -129,3 +129,45 @@ func TestBooleanLiteral(t *testing.T) {
 
 	assert.Equal(t, expected, actual)
 }
+
+func TestObjectLiteral(t *testing.T) {
+
+	program := `
+	let b = { x: a };
+	`
+
+	parser := NewParser(program)
+	ast := parser.parse()
+	actual := encode(ast)
+	expected := `{
+  "body": [
+    {
+      "declarations": [
+        {
+          "id": {
+            "name": "b",
+            "type": "Identifier"
+          },
+          "initializer": {
+            "type": "ObjectLiteral",
+            "values": [
+              {
+                "name": "x",
+                "value": {
+                  "name": "a",
+                  "type": "Identifier"
+                }
+              }
+            ]
+          },
+          "type": "VariableDeclaration"
+        }
+      ],
+      "type": "VariableStatement"
+    }
+  ],
+  "type": "Program"
+}`
+
+	assert.Equal(t, expected, actual)
+}
