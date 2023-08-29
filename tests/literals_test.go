@@ -1,6 +1,7 @@
-package main
+package tests
 
 import (
+	"ford-lang-parser/parser"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -11,9 +12,10 @@ func TestNumericLiteral(t *testing.T) {
 	42;
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {
@@ -36,9 +38,10 @@ func TestFloatLiteral(t *testing.T) {
 	42.34;
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {
@@ -61,9 +64,10 @@ func TestStringLiteral(t *testing.T) {
 	"42";
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {
@@ -86,9 +90,10 @@ func TestSingleQuoteStringLiteral(t *testing.T) {
 	'"42"';
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+	
 	expected := `{
   "body": [
     {
@@ -111,9 +116,10 @@ func TestBooleanLiteral(t *testing.T) {
 	true;
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {
@@ -136,9 +142,10 @@ func TestObjectLiteral(t *testing.T) {
 	let b = { x: a };
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {

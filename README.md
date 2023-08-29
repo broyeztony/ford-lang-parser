@@ -14,13 +14,13 @@
 
 # Run the unit-tests
 ```shell
-❯ go test
+❯ go test ./tests
 ```
 
 # Print the AST for a program
-Modify the program in the main (main.go) function and then 
+Modify the program in the file `playground.ford` and then 
 ```shell
-❯ ./run
+❯ go run main.go
 ```
 from your terminal 
 

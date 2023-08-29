@@ -1,19 +1,21 @@
-package main
+package tests
 
 import (
+	"ford-lang-parser/parser"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestLogicalExpression(t *testing.T) {
+func TestEquality(t *testing.T) {
 
 	program := `
-	x > 0 && y < 1;
+	x > 0 == true;
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {
@@ -30,20 +32,12 @@ func TestLogicalExpression(t *testing.T) {
           },
           "type": "BinaryExpression"
         },
-        "operator": "&&",
+        "operator": "==",
         "right": {
-          "left": {
-            "name": "y",
-            "type": "Identifier"
-          },
-          "operator": "<",
-          "right": {
-            "type": "NumericLiteral",
-            "value": 1
-          },
-          "type": "BinaryExpression"
+          "type": "BooleanLiteral",
+          "value": true
         },
-        "type": "LogicalExpression"
+        "type": "BinaryExpression"
       },
       "type": "ExpressionStatement"
     }

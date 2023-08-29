@@ -1,6 +1,7 @@
-package main
+package tests
 
 import (
+	"ford-lang-parser/parser"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -11,9 +12,10 @@ func TestSimpleMemberExpression(t *testing.T) {
 	x.y;
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {
@@ -44,9 +46,10 @@ func TestMemberExpressionAssignment(t *testing.T) {
 	x.y = 1;
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {
@@ -85,9 +88,10 @@ func TestComputedExpression(t *testing.T) {
 	x[0] = 1;
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {
@@ -126,9 +130,10 @@ func TestComputedExpression2(t *testing.T) {
 	a.b.c['d'];
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {

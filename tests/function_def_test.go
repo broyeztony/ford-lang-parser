@@ -1,6 +1,7 @@
-package main
+package tests
 
 import (
+	"ford-lang-parser/parser"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -13,9 +14,10 @@ func TestFunctionDef(t *testing.T) {
 	}
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {

@@ -1,7 +1,8 @@
-package main
+package tests
 
 import (
 	"encoding/json"
+	parser "ford-lang-parser/parser"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -12,8 +13,8 @@ func TestAssign1(t *testing.T) {
 	x = 42;
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
+	p := parser.NewParser(program)
+	ast := p.Parse()
 
 	got, _ := json.MarshalIndent(ast, "", "  ")
 	expected := `{
@@ -45,8 +46,8 @@ func TestAssign2(t *testing.T) {
 	x = y = 42;
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
+	p := parser.NewParser(program)
+	ast := p.Parse()
 
 	got, _ := json.MarshalIndent(ast, "", "  ")
 	expected := `{

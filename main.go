@@ -1,11 +1,9 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
+	parser "ford-lang-parser/parser"
 	"io/ioutil"
-	"strings"
 )
 
 func main() {
@@ -23,18 +21,8 @@ func main() {
 	fmt.Println("----------------------")
 	fmt.Println()
 
-	parser := NewParser(program)
-	ast := parser.parse()
+	p := parser.NewParser(program)
+	ast := p.Parse()
 
-	fmt.Println(encode(ast))
-}
-
-func encode(ast interface{}) string {
-	buffer := &bytes.Buffer{}
-	encoder := json.NewEncoder(buffer)
-	encoder.SetIndent("", "  ")
-	encoder.SetEscapeHTML(false)
-	encoder.Encode(ast)
-	jsonString := buffer.String()
-	return strings.TrimRight(jsonString, "\n")
+	fmt.Println(parser.Encode(ast))
 }

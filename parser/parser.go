@@ -1,4 +1,4 @@
-package main
+package parser
 
 import (
 	"fmt"
@@ -19,7 +19,7 @@ func NewParser(input string) *Parser {
 	return parser
 }
 
-func (p *Parser) parse() interface{} {
+func (p *Parser) Parse() interface{} {
 
 	// to debug 👇🏻
 	//for {

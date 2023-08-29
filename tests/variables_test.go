@@ -1,6 +1,7 @@
-package main
+package tests
 
 import (
+	"ford-lang-parser/parser"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -10,9 +11,11 @@ func TestVariableDeclaration(t *testing.T) {
 	program := `
 	let x;
 	`
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {
@@ -40,9 +43,11 @@ func TestVariableAssignment(t *testing.T) {
 	program := `
 	let x = 42;
 	`
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {

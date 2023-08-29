@@ -1,6 +1,7 @@
-package main
+package tests
 
 import (
+	"ford-lang-parser/parser"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -11,9 +12,9 @@ func TestSimpleBinaryExpression(t *testing.T) {
 	2 + 2;
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
 	expected := `{
   "body": [
     {
@@ -44,9 +45,10 @@ func TestMulBinaryExpression(t *testing.T) {
 	2 + 2 * 2;
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {
@@ -85,9 +87,10 @@ func TestParenthesizedBinaryExpression(t *testing.T) {
 	2 * (3 + 6);
 	`
 
-	parser := NewParser(program)
-	ast := parser.parse()
-	actual := encode(ast)
+	p := parser.NewParser(program)
+	ast := p.Parse()
+	actual := parser.Encode(ast)
+
 	expected := `{
   "body": [
     {
