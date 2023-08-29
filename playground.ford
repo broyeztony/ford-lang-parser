@@ -1,3 +1,8 @@
-for (let i = 0; i < 10; i += 1) {
-    print(i);
+let a = "not a number";
+def square {
+    return _.x * _.x;
 }
+let result = square({ x: a }) -> {
+    recover 0;
+};
+print(result); // output: 0
