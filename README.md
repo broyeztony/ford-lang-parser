@@ -185,7 +185,7 @@ let x = "not a number";
 
 // function definition with explicit arguments declaration
 def increment (x) {
-    while (x < 10) {
+    while x < 10 {
         x = x + 1;
     }
     return x;
