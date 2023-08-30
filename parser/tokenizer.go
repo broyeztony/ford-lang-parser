@@ -58,6 +58,8 @@ func NewTokenizer(input string) *Tokenizer {
 	tokenizer.spec = append(tokenizer.spec, Rule{re: regexp.MustCompile(`^\brecover\b`), tokenType: "recover"})
 
 	// ------------------------------------------------------------------------------------- NUMBERS
+	// TODO: https://golangbyexample.com/golang-regex-floating-point-number/
+	// ^[+\-]?(?:(?:0|[1-9]\d*)(?:\.\d*)?|\.\d+)$
 	tokenizer.spec = append(tokenizer.spec, Rule{re: regexp.MustCompile(`^(?:(?:0|[1-9]\d*)(?:\.\d*)?|\.\d+)`), tokenType: "NUMBER"})
 
 	// ------------------------------------------------------------------------------------- IDENTIFIER, OPERATORS
