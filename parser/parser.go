@@ -344,6 +344,18 @@ func (p *Parser) UnaryExpression() interface{} {
 	}
 
 	if operator != "" {
+
+		// Check for repeated unary operators and raise an error if found
+		count := 1
+		for p.lookahead._type == "ADDITIVE_OPERATOR" || p.lookahead._type == "LOGICAL_NOT" {
+			p.eat(p.lookahead._type)
+			count++
+		}
+
+		if count > 1 {
+			panic(fmt.Sprintf("Invalid use of repeated %v operator", operator))
+		}
+
 		return map[string]interface{}{
 			"type":     "UnaryExpression",
 			"operator": operator,

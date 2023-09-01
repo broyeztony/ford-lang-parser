@@ -1,8 +1,1 @@
-let a = "not a number";
-def square {
-    return _.x * _.x;
-}
-let result = square({ x: a }) -> {
-    recover 0;
-};
-print(result); // output: 0
+2 --x;
