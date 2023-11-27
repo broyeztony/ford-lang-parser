@@ -62,6 +62,10 @@ func NewTokenizer(input string) *Tokenizer {
 	// ^[+\-]?(?:(?:0|[1-9]\d*)(?:\.\d*)?|\.\d+)$
 	tokenizer.spec = append(tokenizer.spec, Rule{re: regexp.MustCompile(`^(?:(?:0|[1-9]\d*)(?:\.\d*)?|\.\d+)`), tokenType: "NUMBER"})
 
+	// ---------------
+	tokenizer.spec = append(tokenizer.spec, Rule{re: regexp.MustCompile(`^\+\+`), tokenType: "FORBIDDEN_TOKEN"})
+	tokenizer.spec = append(tokenizer.spec, Rule{re: regexp.MustCompile(`^\-\-`), tokenType: "FORBIDDEN_TOKEN"})
+
 	// ------------------------------------------------------------------------------------- IDENTIFIER, OPERATORS
 	tokenizer.spec = append(tokenizer.spec, Rule{re: regexp.MustCompile(`^\w+`), tokenType: "IDENTIFIER"})
 	tokenizer.spec = append(tokenizer.spec, Rule{re: regexp.MustCompile(`^[=!]=`), tokenType: "EQUALITY_OPERATOR"})
@@ -106,6 +110,10 @@ func (t *Tokenizer) getNextToken() *Token {
 
 		if rule.tokenType == "WHITESPACE" || rule.tokenType == "COMMENT" {
 			return t.getNextToken()
+		}
+
+		if rule.tokenType == "FORBIDDEN_TOKEN" {
+			panic(fmt.Sprintf("Invalid token: %v", matches[0]))
 		}
 
 		return &Token{
