@@ -62,7 +62,7 @@ func NewTokenizer(input string) *Tokenizer {
 	// ^[+\-]?(?:(?:0|[1-9]\d*)(?:\.\d*)?|\.\d+)$
 	tokenizer.spec = append(tokenizer.spec, Rule{re: regexp.MustCompile(`^(?:(?:0|[1-9]\d*)(?:\.\d*)?|\.\d+)`), tokenType: "NUMBER"})
 
-	// ---------------
+	// ------------------------------------------------------------------------------------- (currently) forbidden tokens
 	tokenizer.spec = append(tokenizer.spec, Rule{re: regexp.MustCompile(`^\+\+`), tokenType: "FORBIDDEN_TOKEN"})
 	tokenizer.spec = append(tokenizer.spec, Rule{re: regexp.MustCompile(`^\-\-`), tokenType: "FORBIDDEN_TOKEN"})
 
