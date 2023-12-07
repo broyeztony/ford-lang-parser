@@ -17,10 +17,6 @@ func main() {
 
 	program := string(data)
 
-	fmt.Println(program)
-	fmt.Println("----------------------")
-	fmt.Println()
-
 	p := parser.NewParser(program)
 	ast := p.Parse()
 

@@ -1,9 +1,14 @@
-let a = 1;
-let b = 0;
+let a = 0;
+let b = false;
 
-if a > 10 {
-    b = 20;
-} else {
-    b = 30;
+while a < 10 {
+    if b == true {
+        b = false;
+    }
+    else {
+        b = true;
+    }
+    a = a + 1;
 }
+
 b;
